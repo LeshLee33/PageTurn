@@ -1,0 +1,7 @@
+.Acount-container {
+    background-color: #A97F61; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+}

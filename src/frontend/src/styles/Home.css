@@ -1,0 +1,33 @@
+.home-container {
+    background-color: #A97F61; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; 
+}
+
+.bookList {
+    background-color: #F5F5F5; 
+    width: 90%; 
+    max-width: 1024px; 
+    min-height: 500px; 
+    margin-top: 15px;
+    border-radius: 10px; 
+    flex-direction: row; /* Устанавливает направление элементов по строкам */
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.popular-works {
+    margin: 10px 0 10px 30px;
+    color: #2C3E50;   
+    font-size: 32px;   
+    font-weight: bold;
+}
+
+.last-works {
+    margin: 10px 0 10px 30px;
+    color: #2C3E50;   
+    font-size: 32px;   
+    font-weight: bold;
+}
