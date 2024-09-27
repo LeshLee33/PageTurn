@@ -3,11 +3,11 @@ import BookList from '../components/BookList';
 import NavigationBar from '../components/NavigationBar';
 
 import '../styles/Home.css'; // Импортируем файл стилей
-import logo from '../image/logo.svg'; // Импортируем изображение
-import bookmarks from '../image/bookmarks.svg';
-import create_an_entry from '../image/create_an_entry.svg';
-import account from '../image/account.svg';
-import search from '../image/search.svg';
+import logo from '../assets/logo.svg'; // Импортируем изображение
+import bookmarks from '../assets/bookmarks.svg';
+import create_an_entry from '../assets/create_an_entry.svg';
+import account from '../assets/account.svg';
+import search from '../assets/search.svg';
 
 function Home() {
 

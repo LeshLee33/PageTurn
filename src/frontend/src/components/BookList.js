@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 const books = [
     {
@@ -44,7 +45,12 @@ const BookBlock = ({ book }) => {
             flexDirection: 'column',
             color: '#F5F5F5',
         }}>
-            <h2>{book.name}</h2>
+            <Link to={`/postpage/${book.id}`} style={{
+                textDecoration: 'none', 
+                color: '#F5F5F5' 
+            }}>
+                <h2>{book.name}</h2> 
+            </Link>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <span>{book.author}</span>
                 <div>
@@ -79,7 +85,7 @@ const BookList = ({ filterType }) => {
     return (
         <div>
             {filteredBooks.map(book => (
-                <BookBlock key={book.id} book={book} />
+                    <BookBlock key={book.id} book={book} />
             ))}
         </div>
     );

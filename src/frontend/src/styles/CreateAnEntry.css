@@ -53,6 +53,18 @@
   .tag-button:hover {
     background-color: #f2ff7e; /* Изменение цвета при наведении */
   }
+
+  .tag-button-selected {
+    padding: 3px;
+    border: none;
+    border-radius: 5px;
+    background-color: #c39eb4;
+    color: #2C3E50;
+  }
+
+  .tag-button-selected:hover {
+    background-color: #f2ff7e; /* Изменение цвета при наведении */
+  }
   
   .submit-button {
     margin: 10px 10px 10px 10px;
