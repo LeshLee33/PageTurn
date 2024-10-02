@@ -36,7 +36,7 @@ async def get_all_users() -> list[User]:
 
 @users_router.post("/register")
 async def register_user(nickname: str, password: str) -> User:
-    new_user = dict(nickname=nickname, password=password, books_collection=[], books_own=[], likes=[])
+    new_user = dict(nickname=nickname, password=password, books_collection=[], books_own=[])
 
     try:
         user = users_collection.find_one({"nickname": nickname})
@@ -84,3 +84,14 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
     user = users_collection.find_one(current_user)
 
     return user
+
+
+@users_router.get("/users/{nickname}/collection")
+def get_collection_by_nickname(nickname: str) -> list[str]:
+    current_user = dict(nickname=nickname)
+
+    user = users_collection.find_one(current_user)
+    if user is None:
+        raise HTTPException(status_code=404, detail="Invalid username")
+
+    return user["books_collection"]

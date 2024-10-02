@@ -2,9 +2,8 @@ from pydantic import BaseModel
 
 
 class User(BaseModel):
-    _id: int
+    id: str
     nickname: str
     password: str
     books_collection: list[int]
     books_own: list[int]
-    likes: list[int]
