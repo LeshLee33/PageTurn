@@ -84,7 +84,7 @@ function CreateAnEntry() {
 
         <div className='title'>Содержание:</div>
         <textarea id="content" className='input-content' value={content} onChange={(e) => setContent(e.target.value)}></textarea>
-        <div className='title'>Выбор тэгов:</div>
+        <div className='title'>Выбор тегов:</div>
 
         <div className='tags-container'>
           {selected_tags.map((tag, index) => (

@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px; /* Пробел между элементами */
+    
   }
   
   .input-title, .input-content {
@@ -26,6 +27,8 @@
     border-radius: 5px;
     font-size: 16px;
     outline: none;
+    box-sizing: border-box;
+    
   }
   
   .input-content {
