@@ -6,8 +6,8 @@
 
 для запуска проекта:
 ```
-npm install
-npm run start:dev
+cd src/frontend
+npm run start
 ```
 
 ---
