@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="created users router">
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="added requirements.txt">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/books_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/books_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/models/book.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/book.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/users_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/users_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 0
@@ -89,7 +89,15 @@
       <option name="project" value="LOCAL" />
       <updated>1727435006899</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="created some book router endpoints">
+      <option name="closed" value="true" />
+      <created>1727868461003</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1727868461003</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -107,6 +115,7 @@
     <MESSAGE value="Created environment" />
     <MESSAGE value="added PyMongo connection" />
     <MESSAGE value="created users router" />
-    <option name="LAST_COMMIT_MESSAGE" value="created users router" />
+    <MESSAGE value="created some book router endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="created some book router endpoints" />
   </component>
 </project>
