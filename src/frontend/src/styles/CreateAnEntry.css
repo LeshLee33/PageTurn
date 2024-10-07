@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start; 
+    
 }
 
 .input-container {
@@ -38,12 +39,41 @@
     outline: none;
   }
 
+  .file-input-container {
+    width: 250px;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .drag-and-drop-area {
+    height: 200px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .img-container{
+    max-width: 180px;
+    max-height: 180px;
+    display: flex;
+    flex-direction: column;
+    color: #9EB0C3
+  }
+
+
   .tags-container {
     margin: 0 10px 0 10px;
     display: flex;
     flex-wrap: wrap; /* Позволяет кнопкам обтекать по строкам */
     gap: 10px; /* Отступы между кнопками тегов */
   }
+
+  
   
   .tag-button {
     padding: 3px;
@@ -88,3 +118,5 @@
     color: #2C3E50;
     margin: 0px 0 0px 15px;
   }
+
+  
