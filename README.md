@@ -7,7 +7,7 @@ git branch -M master
 git pull
 ```
 
-пуi
+пуш
 
 ```
 git add .
