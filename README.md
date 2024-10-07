@@ -1,5 +1,22 @@
 # GIT
 
+пул
+
+```
+git branch -M master
+git pull
+```
+
+пуi
+
+```
+git add .
+git commit -m "название коммита"
+git branch -M master
+git push -u origin master
+```
+
+
 # FRONT-END
 
 установите node js
