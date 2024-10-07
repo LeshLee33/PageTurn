@@ -45,7 +45,7 @@ def get_books_by_user(username: str) -> Book:
 
 
 @books_router.get("/books/{tags}")
-def get_books_by_tags(tags: list[str]):
+def get_books_by_tags(tags):
     pass
 
 
