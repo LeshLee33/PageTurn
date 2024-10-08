@@ -23,19 +23,27 @@ async def get_user_by_nickname(nickname: str) -> User:
 
 @users_router.get("/users")
 async def get_all_users() -> list[User]:
+    result = []
     try:
-        result = list(users_collection.find())
+        users = list(users_collection.find())
 
-        if len(result) == 0:
+        if len(users) == 0:
             raise HTTPException(status_code=404, detail="Users not found")
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection not found")
 
+    for user in users:
+        result.append(User(id=user['_id'],
+                           nickname=user['nickname'],
+                           password=user['password'],
+                           books_collection=user['books_collection'],
+                           books_own=user['books_own'],))
+
     return result
 
 
-@users_router.post("/register")
-async def register_user(nickname: str, password: str) -> User:
+@users_router.post("/register", response_model=User)
+async def register_user(nickname: str, password: str):
     new_user = dict(nickname=nickname, password=password, books_collection=[], books_own=[])
 
     try:
@@ -46,8 +54,15 @@ async def register_user(nickname: str, password: str) -> User:
     if user:
         raise HTTPException(status_code=400, detail="Nickname already registered")
     users_collection.insert_one(new_user)
+    user = users_collection.find_one({"nickname": nickname})
 
-    return user
+    result = User(id=user['_id'],
+                  nickname=user['nickname'],
+                  password=user['password'],
+                  books_collection=user['books_collection'],
+                  books_own=user['books_own'],)
+
+    return result
 
 
 @users_router.get("/login")
@@ -61,7 +76,13 @@ async def login_user(nickname: str, password: str) -> User:
     if user["password"] != password:
         raise HTTPException(status_code=400, detail="Invalid password")
 
-    return user
+    result = User(id=user['_id'],
+                  nickname=user['nickname'],
+                  password=user['password'],
+                  books_collection=user['books_collection'],
+                  books_own=user['books_own'],)
+
+    return result
 
 
 @users_router.patch("/users/{nickname}/change_password", status_code=200)
@@ -83,7 +104,13 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
 
     user = users_collection.find_one(current_user)
 
-    return user
+    result = User(id=user['_id'],
+                  nickname=user['nickname'],
+                  password=user['password'],
+                  books_collection=user['books_collection'],
+                  books_own=user['books_own'],)
+
+    return result
 
 
 @users_router.get("/users/{nickname}/collection")
