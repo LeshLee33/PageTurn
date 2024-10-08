@@ -12,11 +12,17 @@ async def get_user_by_nickname(nickname: str) -> User:
     query = dict(nickname=nickname)
 
     try:
-        result = users_collection.find_one(query)
-        if result is None:
+        user = users_collection.find_one(query)
+        if user is None:
             raise HTTPException(status_code=404, detail="User not found")
     except CollectionInvalid:
         raise HTTPException(status_code=404, detail="Collection not found")
+
+    result = User(id=str(user['_id']),
+                  nickname=user['nickname'],
+                  password=user['password'],
+                  books_collection=user['books_collection'],
+                  books_own=user['books_own'],)
 
     return result
 
@@ -33,11 +39,12 @@ async def get_all_users() -> list[User]:
         raise HTTPException(status_code=404, detail="Collection not found")
 
     for user in users:
-        result.append(User(id=user['_id'],
+        result.append(User(id=str(user['_id']),
                            nickname=user['nickname'],
                            password=user['password'],
                            books_collection=user['books_collection'],
                            books_own=user['books_own'],))
+    print(result)
 
     return result
 
@@ -56,7 +63,7 @@ async def register_user(nickname: str, password: str):
     users_collection.insert_one(new_user)
     user = users_collection.find_one({"nickname": nickname})
 
-    result = User(id=user['_id'],
+    result = User(id=str(user['_id']),
                   nickname=user['nickname'],
                   password=user['password'],
                   books_collection=user['books_collection'],
@@ -76,7 +83,7 @@ async def login_user(nickname: str, password: str) -> User:
     if user["password"] != password:
         raise HTTPException(status_code=400, detail="Invalid password")
 
-    result = User(id=user['_id'],
+    result = User(id=str(user['_id']),
                   nickname=user['nickname'],
                   password=user['password'],
                   books_collection=user['books_collection'],
@@ -104,7 +111,7 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
 
     user = users_collection.find_one(current_user)
 
-    result = User(id=user['_id'],
+    result = User(id=str(user['_id']),
                   nickname=user['nickname'],
                   password=user['password'],
                   books_collection=user['books_collection'],
