@@ -2,10 +2,11 @@ from pydantic import BaseModel
 
 
 class Book(BaseModel):
-    id: int
+    id: str
     title: str
     author: str
-    tags: list[str]
+    tags: []
     release_date: str
     description: str
+    text: bytes
     saving_count: int
