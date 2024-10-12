@@ -72,7 +72,7 @@ def get_books_by_user(username: str) -> Book:
     return result
 
 
-@books_router.get("/books/{tags}")
+@books_router.get("/books/{tags_list}")
 def get_books_by_tags(tags: list[str]):
     pass
 
