@@ -8,7 +8,7 @@ books_router = APIRouter()
 
 
 @books_router.post("/books/upload")
-def add_book(title: str, author: str, tags: [], release_date: str, description: str, upload_file: UploadFile) -> Book:
+def add_book(title: str, author: str, tags: list[str], release_date: str, description: str, upload_file: UploadFile) -> Book:
     content = upload_file.file.read()
     new_book = dict(title=title, author=author, tags=tags, release_date=release_date, description=description, text=content, saving_count=0)
 
@@ -73,7 +73,7 @@ def get_books_by_user(username: str) -> Book:
 
 
 @books_router.get("/books/{tags}")
-def get_books_by_tags(tags: []):
+def get_books_by_tags(tags: list[str]):
     pass
 
 
@@ -90,7 +90,7 @@ def delete_book(book_id: str):
 
 
 @books_router.patch("/books/{id}/edit")
-def edit_book(book_id: str, title: str, author: str, tags: [], release_date: str, description: str) -> Book:
+def edit_book(book_id: str, title: str, author: str, tags: list[str], release_date: str, description: str) -> Book:
     new_data = {"$set": dict(title=title, author=author, tags=tags, release_date=release_date, description=description)}
 
     try:
