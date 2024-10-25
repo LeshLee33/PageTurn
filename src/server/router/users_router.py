@@ -58,8 +58,7 @@ async def sign_out(token):
     if current_token is None:
         raise HTTPException(status_code=404, detail="Invalid token: user may be not signed in")
 
-    new_data = {"$set": dict(token='')}
-    tokens_collection.update_one(query, new_data)
+    tokens_collection.delete_one(query)
 
     return dict(status_code=200, detail="Signed out, token nullified")
 

@@ -16,7 +16,7 @@ git branch -M master
 git push -u origin dev
 ```
 
-объединение
+объединение (для создателя репозитория)
 
 ```
 git checkout master
