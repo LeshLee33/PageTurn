@@ -13,9 +13,17 @@ git pull
 git add .
 git commit -m "название коммита"
 git branch -M master
-git push -u origin master
+git push -u origin dev
 ```
 
+объединение
+
+```
+git checkout master
+git merge dev
+```
+
+---
 
 # FRONT-END
 
