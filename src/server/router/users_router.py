@@ -1,6 +1,4 @@
-from pymongo.errors import *
 from .database_connection import users_collection
-from .models import User
 from fastapi import HTTPException
 from fastapi import APIRouter
 import secrets as sc
@@ -85,11 +83,11 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
 
 
 @users_router.get("/users/{nickname}/collection")
-def get_collection_by_nickname(nickname: str) -> list[str]:
-    current_user = dict(nickname=nickname)
+def get_collection_by_nickname(nickname: str, token: str) -> list[str]:
+    current_user = dict(nickname=nickname, token=token)
 
     user = users_collection.find_one(current_user)
     if user is None:
-        raise HTTPException(status_code=404, detail="Invalid username")
+        raise HTTPException(status_code=404, detail="Invalid username or user is not signed in")
 
     return user["bookmarks"]

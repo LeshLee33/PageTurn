@@ -7,4 +7,3 @@ class User(BaseModel):
     password: str
     bookmarks: list[int]
     books_own: list[int]
-    token: str

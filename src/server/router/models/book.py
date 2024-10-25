@@ -5,8 +5,7 @@ class Book(BaseModel):
     id: str
     title: str
     author: str
-    tags: list[str]
+    tags: list
     release_date: str
     description: str
-    text: bytes
     saving_count: int

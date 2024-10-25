@@ -1,135 +1,85 @@
+import os
+
 from pymongo.errors import CollectionInvalid
 
 from .models import Book
 from .database_connection import books_collection
-from fastapi import APIRouter, HTTPException, UploadFile
+from fastapi.responses import FileResponse as fr
+from fastapi import APIRouter, HTTPException, UploadFile, Query
 
 books_router = APIRouter()
+directory = "C:/Users/Lenovo/Desktop/Term5Programming/PageTurn/books/"
 
 
-@books_router.post("/books/upload")
-def add_book(title: str, author: str, tags: list[str], release_date: str, description: str, upload_file: UploadFile) -> Book:
-    content = upload_file.file.read()
-    new_book = dict(title=title, author=author, tags=tags, release_date=release_date, description=description, text=content, saving_count=0)
+def save_book(upload_file, author) -> str:
+    if not os.path.isdir(directory):
+        os.mkdir(directory + f"{author}")
 
-    try:
-        new_book = books_collection.insert_one(new_book)
-        current_book = books_collection.find_one(new_book.inserted_id)
-    except CollectionInvalid:
-        raise HTTPException(status_code=400, detail="Collection not found")
+    file_location = directory + f"{author}/{upload_file.filename}"
+    with open(file_location, "wb+") as file_object:
+        file_object.write(upload_file.file.read())
 
-    result = Book(id=str(current_book["_id"]),
-                  title=current_book["title"],
-                  author=current_book["author"],
-                  tags=current_book["tags"],
-                  release_date=current_book["release_date"],
-                  description=current_book["description"],
-                  text=current_book["text"],
-                  saving_count=current_book["saving_count"])
-
-    return result
+    return file_location
 
 
-@books_router.get("/books/{id}")
-def get_book_by_id(book_id: str) -> Book:
-    query = dict(_id=book_id)
+@books_router.post("/books/upload/")
+def upload_book(title: str, author: str, release_date: str, description: str, upload_file: UploadFile, tags: list[str] = Query()):
+    file_location = save_book(upload_file, author)
 
-    try:
-        current_book = books_collection.find_one(query)
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection invalid")
+    new_book = dict(id='', title=title, author=author, tags=[x for x in tags], release_date=release_date,
+                    description=description, document_path=file_location, saving_count=0)
 
-    result = Book(id=str(current_book["_id"]),
-                  title=current_book["title"],
-                  author=current_book["author"],
-                  tags=current_book["tags"],
-                  release_date=current_book["release_date"],
-                  description=current_book["description"],
-                  text=current_book["text"],
-                  saving_count=current_book["saving_count"])
+    new_book = books_collection.insert_one(new_book)
+    current_book = books_collection.find_one(new_book.inserted_id)
+
+    books_collection.update_one(current_book, {"$set": dict(id=str(new_book.inserted_id))})
+    current_book = books_collection.find_one(new_book.inserted_id)
+
+    result = Book(id=str(current_book["id"]), title=current_book["title"], author=current_book["author"],
+                  tags=current_book["tags"], release_date=current_book["release_date"],
+                  description=current_book["description"], saving_count=current_book["saving_count"])
 
     return result
 
 
-@books_router.get("/books/{nickname}")
-def get_books_by_user(username: str) -> Book:
-    query = dict(nickname=username)
+@books_router.get("/books/get_info")
+def get_book_info_by_id(book_id: str):
+    current_book = books_collection.find_one(dict(id=book_id))
 
-    try:
-        current_book = books_collection.find_one(query)
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection invalid")
-
-    result = Book(id=str(current_book["_id"]),
-                  title=current_book["title"],
-                  author=current_book["author"],
-                  tags=current_book["tags"],
-                  release_date=current_book["release_date"],
-                  description=current_book["description"],
-                  text=current_book["text"],
-                  saving_count=current_book["saving_count"])
+    result = Book(id=str(current_book["_id"]), title=current_book["title"], author=current_book["author"],
+                  tags=current_book["tags"], release_date=current_book["release_date"],
+                  description=current_book["description"], saving_count=current_book["saving_count"])
 
     return result
 
 
-@books_router.get("/books/{tags_list}")
+@books_router.get("/books/get_doc")
+def get_book_document_by_id(book_id: str):
+    current_book = books_collection.find_one(dict(id=book_id))
+
+    return fr(path=current_book["document_path"], filename=f"{current_book['author']}_{current_book['title']}.docx")
+
+
+@books_router.get("/books/{author}")
+def get_books_by_author(author: str):
+    pass
+
+
+@books_router.get("/books")
 def get_books_by_tags(tags: list[str]):
     pass
 
 
 @books_router.delete("/books/{id}/delete")
 def delete_book(book_id: str):
-    query = dict(_id=book_id)
-
-    try:
-        books_collection.delete_one(query)
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection invalid")
-
-    return dict(status_code=200, message="Book deletion successful")
+    pass
 
 
 @books_router.patch("/books/{id}/edit")
-def edit_book(book_id: str, title: str, author: str, tags: list[str], release_date: str, description: str) -> Book:
-    new_data = {"$set": dict(title=title, author=author, tags=tags, release_date=release_date, description=description)}
-
-    try:
-        current_book = books_collection.find_one(dict(_id=book_id))
-        books_collection.update_one(current_book, new_data)
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection invalid")
-
-    current_book = books_collection.find_one(dict(_id=book_id))
-    result = Book(id=current_book["_id"],
-                  title=current_book["title"],
-                  author=current_book["author"],
-                  tags=current_book["tags"],
-                  release_date=current_book["release_date"],
-                  description=current_book["description"],
-                  saving_count=current_book["saving_count"])
-
-    return result
+def edit_book(book_id: str, title: str, author: str, tags: list[str], release_date: str, description: str):
+    pass
 
 
 @books_router.put("/books/{id}/update")
-def update_book(book_id: str, upload_file: UploadFile) -> Book:
-    content = upload_file.file.read()
-    new_data = {"$set", dict(text=content)}
-
-    try:
-        book = books_collection.find_one(dict(_id=book_id))
-        updated_book = books_collection.update_one(book, new_data)
-    except CollectionInvalid:
-        raise HTTPException(status_code=400, detail="Collection not found")
-
-    current_book = books_collection.find_one(dict(_id=book_id))
-    result = Book(id=str(current_book["_id"]),
-                  title=current_book["title"],
-                  author=current_book["author"],
-                  tags=current_book["tags"],
-                  release_date=current_book["release_date"],
-                  description=current_book["description"],
-                  text=current_book["text"],
-                  saving_count=current_book["saving_count"])
-
-    return result
+def update_book(book_id: str, upload_file: UploadFile):
+    pass

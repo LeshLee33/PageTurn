@@ -4,8 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="fix for get_books_by_tags">
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="добавил токены авторизации на основе модуля secrets">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/router/books_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/books_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/router/models/book.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/book.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/router/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/user.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/router/users_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/users_router.py" afterDir="false" />
     </list>
@@ -49,6 +51,8 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Lenovo\Desktop\Term5Programming\PageTurn" />
+      <recent name="C:\Users\Lenovo\Desktop\Term5Programming\PageTurn\src\server" />
       <recent name="C:\Users\Lenovo\Desktop\Term5Programming\PageTurn\src\server\router" />
     </key>
   </component>
@@ -190,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1728731745901</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="добавил токены авторизации на основе модуля secrets">
+      <option name="closed" value="true" />
+      <created>1729851095513</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1729851095513</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -215,6 +227,7 @@
     <MESSAGE value="added file saving system for books_router.py" />
     <MESSAGE value="backup for tags" />
     <MESSAGE value="fix for get_books_by_tags" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix for get_books_by_tags" />
+    <MESSAGE value="добавил токены авторизации на основе модуля secrets" />
+    <option name="LAST_COMMIT_MESSAGE" value="добавил токены авторизации на основе модуля secrets" />
   </component>
 </project>
