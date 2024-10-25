@@ -50,7 +50,7 @@ async def sign_in(nickname: str, password: str):
 
     current_token = tokens_collection.find_one(dict(nickname=nickname))
 
-    return current_token
+    return current_token['token']
 
 
 @users_router.get("/sign_out", response_model=dict)
