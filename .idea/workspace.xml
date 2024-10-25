@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="исправлена ошибка с удалением токена">
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="исправлена ошибка с созданием директории books">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/router/books_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/books_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/router/database_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/database_connection.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +23,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="MIXED" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -223,13 +225,13 @@
       <option name="project" value="LOCAL" />
       <updated>1729866604881</updated>
     </task>
-    <task id="LOCAL-00016" summary="исправлена ошибка с удалением токена">
+    <task id="LOCAL-00016" summary="исправлена ошибка с созданием директории books">
       <option name="closed" value="true" />
-      <created>1729868785612</created>
+      <created>1729870965264</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1729868785612</updated>
+      <updated>1729870965264</updated>
     </task>
     <option name="localTasksCounter" value="17" />
     <servers />
@@ -260,7 +262,7 @@
     <MESSAGE value="Добавил загрузку и скачивание текстовых документов" />
     <MESSAGE value="Добавил все остальные эндпоинты для работы с книгами" />
     <MESSAGE value="Мелкие исправления" />
-    <MESSAGE value="исправлена ошибка с удалением токена" />
-    <option name="LAST_COMMIT_MESSAGE" value="исправлена ошибка с удалением токена" />
+    <MESSAGE value="исправлена ошибка с созданием директории books" />
+    <option name="LAST_COMMIT_MESSAGE" value="исправлена ошибка с созданием директории books" />
   </component>
 </project>
