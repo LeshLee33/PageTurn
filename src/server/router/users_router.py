@@ -3,78 +3,39 @@ from .database_connection import users_collection
 from .models import User
 from fastapi import HTTPException
 from fastapi import APIRouter
+import secrets as sc
 
 users_router = APIRouter()
 
 
-@users_router.get("/users/{nickname}")
-async def get_user_by_nickname(nickname: str) -> User:
-    query = dict(nickname=nickname)
+@users_router.get("/users/check_token", response_model=dict)
+async def check_user_token(token: str):
+    query = dict(token=token)
 
-    try:
-        user = users_collection.find_one(query)
-        if user is None:
-            raise HTTPException(status_code=404, detail="User not found")
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection not found")
+    user = users_collection.find_one(query)
+    if user is None:
+        raise HTTPException(status_code=404, detail="Invalid token: user may be not signed in")
 
-    result = User(id=str(user['_id']),
-                  nickname=user['nickname'],
-                  password=user['password'],
-                  books_collection=user['books_collection'],
-                  books_own=user['books_own'],)
-
-    return result
+    return dict(status_code=200, detail="User is signed in")
 
 
-@users_router.get("/users")
-async def get_all_users() -> list[User]:
-    result = []
-    try:
-        users = list(users_collection.find())
+@users_router.post("/sign_up", response_model=str)
+async def sign_up(nickname: str, password: str):
+    token = sc.token_hex(8)
+    new_user = dict(nickname=nickname, password=password, bookmarks=[], books_own=[], token=token)
 
-        if len(users) == 0:
-            raise HTTPException(status_code=404, detail="Users not found")
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection not found")
-
-    for user in users:
-        result.append(User(id=str(user['_id']),
-                           nickname=user['nickname'],
-                           password=user['password'],
-                           books_collection=user['books_collection'],
-                           books_own=user['books_own'],))
-    print(result)
-
-    return result
-
-
-@users_router.post("/register", response_model=User)
-async def register_user(nickname: str, password: str):
-    new_user = dict(nickname=nickname, password=password, books_collection=[], books_own=[])
-
-    try:
-        user = users_collection.find_one({"nickname": nickname})
-    except CollectionInvalid:
-        raise HTTPException(status_code=404, detail="Collection invalid")
-
+    user = users_collection.find_one({"nickname": nickname})
     if user:
         raise HTTPException(status_code=400, detail="Nickname already registered")
     users_collection.insert_one(new_user)
-    user = users_collection.find_one({"nickname": nickname})
 
-    result = User(id=str(user['_id']),
-                  nickname=user['nickname'],
-                  password=user['password'],
-                  books_collection=user['books_collection'],
-                  books_own=user['books_own'],)
-
-    return result
+    return token
 
 
-@users_router.get("/login")
-async def login_user(nickname: str, password: str) -> User:
-    query = {"nickname": nickname}
+@users_router.get("/sign_in", response_model=str)
+async def sign_in(nickname: str, password: str):
+    token = sc.token_hex(8)
+    query = dict(nickname=nickname)
 
     user = users_collection.find_one(query)
     if user is None:
@@ -83,17 +44,28 @@ async def login_user(nickname: str, password: str) -> User:
     if user["password"] != password:
         raise HTTPException(status_code=400, detail="Invalid password")
 
-    result = User(id=str(user['_id']),
-                  nickname=user['nickname'],
-                  password=user['password'],
-                  books_collection=user['books_collection'],
-                  books_own=user['books_own'],)
+    new_data = {"$set": dict(token=token)}
+    users_collection.update_one(user, new_data)
 
-    return result
+    return token
 
 
-@users_router.patch("/users/{nickname}/change_password", status_code=200)
-async def change_password(nickname: str, old_password: str, new_password: str, new_password_repeat: str) -> User:
+@users_router.get("/sign_out", response_model=dict)
+async def sign_out(token):
+    query = dict(token=token)
+
+    user = users_collection.find_one(query)
+    if user is None:
+        raise HTTPException(status_code=404, detail="Invalid token: user may be not signed in")
+
+    new_data = {"$set": dict(token='')}
+    users_collection.update_one(query, new_data)
+
+    return dict(status_code=200, detail="Signed out, token nullified")
+
+
+@users_router.patch("/users/{nickname}/change_password", response_model=dict)
+async def change_password(nickname: str, old_password: str, new_password: str, new_password_repeat: str):
     current_user = dict(nickname=nickname)
 
     if new_password != new_password_repeat:
@@ -109,15 +81,7 @@ async def change_password(nickname: str, old_password: str, new_password: str, n
     else:
         users_collection.update_one(current_user, new_data)
 
-    user = users_collection.find_one(current_user)
-
-    result = User(id=str(user['_id']),
-                  nickname=user['nickname'],
-                  password=user['password'],
-                  books_collection=user['books_collection'],
-                  books_own=user['books_own'],)
-
-    return result
+    return dict(status_code=200, detail="Password changed successfully")
 
 
 @users_router.get("/users/{nickname}/collection")
@@ -128,4 +92,4 @@ def get_collection_by_nickname(nickname: str) -> list[str]:
     if user is None:
         raise HTTPException(status_code=404, detail="Invalid username")
 
-    return user["books_collection"]
+    return user["bookmarks"]

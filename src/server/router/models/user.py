@@ -5,5 +5,6 @@ class User(BaseModel):
     id: str
     nickname: str
     password: str
-    books_collection: list[int]
+    bookmarks: list[int]
     books_own: list[int]
+    token: str
