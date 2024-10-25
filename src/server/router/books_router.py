@@ -8,14 +8,14 @@ from fastapi.responses import FileResponse
 from fastapi import APIRouter, HTTPException, UploadFile, Query
 
 books_router = APIRouter()
-directory = "C:/Users/Lenovo/Desktop/Term5Programming/PageTurn/books/"
+directory = "C:/Users/Lenovo/Desktop/Term5Programming/PageTurn/"
 
 
 def save_book(upload_file, author) -> str:
     if not os.path.isdir(directory):
-        os.mkdir(directory + f"{author}")
+        os.mkdir(directory + f"/books/{author}")
 
-    file_location = directory + f"{author}/{upload_file.filename}"
+    file_location = directory + f"/books/{author}/{upload_file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(upload_file.file.read())
 

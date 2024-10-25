@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="Мелкие исправления">
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="исправлена ошибка с удалением токена">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/users_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/users_router.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/router/books_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/books_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -224,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729866604881</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="исправлена ошибка с удалением токена">
+      <option name="closed" value="true" />
+      <created>1729868785612</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1729868785612</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -253,6 +260,7 @@
     <MESSAGE value="Добавил загрузку и скачивание текстовых документов" />
     <MESSAGE value="Добавил все остальные эндпоинты для работы с книгами" />
     <MESSAGE value="Мелкие исправления" />
-    <option name="LAST_COMMIT_MESSAGE" value="Мелкие исправления" />
+    <MESSAGE value="исправлена ошибка с удалением токена" />
+    <option name="LAST_COMMIT_MESSAGE" value="исправлена ошибка с удалением токена" />
   </component>
 </project>
