@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="добавил токены авторизации на основе модуля secrets">
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="Добавил загрузку и скачивание текстовых документов">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/router/books_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/books_router.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/models/book.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/book.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/router/models/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/router/database_connection.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/database_connection.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/router/models/chapter.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/models/token.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/router/users_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/users_router.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -202,7 +202,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729851095513</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Добавил загрузку и скачивание текстовых документов">
+      <option name="closed" value="true" />
+      <created>1729862491941</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1729862491942</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -228,6 +236,7 @@
     <MESSAGE value="backup for tags" />
     <MESSAGE value="fix for get_books_by_tags" />
     <MESSAGE value="добавил токены авторизации на основе модуля secrets" />
-    <option name="LAST_COMMIT_MESSAGE" value="добавил токены авторизации на основе модуля secrets" />
+    <MESSAGE value="Добавил загрузку и скачивание текстовых документов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Добавил загрузку и скачивание текстовых документов" />
   </component>
 </project>

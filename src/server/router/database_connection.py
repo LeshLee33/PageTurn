@@ -5,3 +5,4 @@ database = client.PageTurn
 
 books_collection = database.Books
 users_collection = database.Users
+tokens_collection = database.Users
