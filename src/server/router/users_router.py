@@ -10,8 +10,8 @@ users_router = APIRouter()
 async def check_user_token(token: str):
     query = dict(token=token)
 
-    user = users_collection.find_one(query)
-    if user is None:
+    current_token = tokens_collection.find_one(query)
+    if current_token is None:
         raise HTTPException(status_code=404, detail="Invalid token: user may be not signed in")
 
     return dict(status_code=200, detail="User is signed in")
