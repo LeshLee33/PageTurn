@@ -1,7 +1,5 @@
 import os
 
-from pymongo.errors import CollectionInvalid
-
 from .models import Book
 from .database_connection import books_collection, users_collection, tokens_collection
 from fastapi.responses import FileResponse
