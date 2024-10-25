@@ -27,9 +27,7 @@ async def sign_up(nickname: str, password: str):
     if user:
         raise HTTPException(status_code=400, detail="Nickname already registered")
     users_collection.insert_one(new_user)
-
-    if not tokens_collection.find_one(dict(nickname=nickname)):
-        tokens_collection.insert_one(new_token)
+    tokens_collection.insert_one(new_token)
 
     return token
 
@@ -47,7 +45,7 @@ async def sign_in(nickname: str, password: str):
     if user["password"] != password:
         raise HTTPException(status_code=400, detail="Invalid password")
 
-    if not tokens_collection.find_one(dict(nickname=nickname)):
+    if tokens_collection.find_one(dict(nickname=nickname)) is None:
         tokens_collection.insert_one(new_token)
 
     current_token = tokens_collection.find_one(dict(nickname=nickname))
