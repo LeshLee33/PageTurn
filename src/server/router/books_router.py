@@ -109,23 +109,20 @@ def delete_book(token: str, book_id: str):
 
     current_user = users_collection.find_one(dict(nickname=current_token['nickname']))
     books_own = current_user['books_own']
-    print(books_own)
 
     books_own.remove(book_id)
-    print(books_own)
     users_collection.update_one(dict(nickname=current_token['nickname']), {"$set": dict(books_own=books_own)})
 
     return dict(status_code=200, detail="Book deleted successfully")
 
 
 @books_router.patch("/books/edit")
-def edit_book(token: str, book_id: str, title: str, author: str, tags: list[str], release_date: str, description: str):
+def edit_book(token: str, book_id: str, title: str, description: str, tags: list[str] = Query()):
     current_token = tokens_collection.find_one(dict(token=token))
     if current_token is None:
         raise HTTPException(status_code=404, detail="Invalid token: user may not be signed in")
 
-    new_data = dict(id='', title=title, author=author, tags=tags, release_date=release_date,
-                    description=description, saving_count=0)
+    new_data = dict(title=title, tags=tags, description=description)
     current_book = books_collection.find_one(dict(id=book_id))
 
     books_collection.update_one(current_book, {"$set": new_data})
@@ -141,7 +138,8 @@ def update_book(token: str, book_id: str, upload_file: UploadFile):
         raise HTTPException(status_code=404, detail="Invalid token: user may not be signed in")
 
     current_book = books_collection.find_one(dict(id=book_id))
-    file_location = save_book(upload_file, current_book['nickname'])
+    os.remove(current_book['document_path'])
+    file_location = save_book(upload_file, current_book['author'])
 
     new_data = dict(document_path=file_location)
     books_collection.update_one(current_book, {"$set": new_data})
