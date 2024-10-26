@@ -1,22 +1,25 @@
 import os
-
 from .models import Book
 from .database_connection import books_collection, users_collection, tokens_collection
 from fastapi.responses import FileResponse
 from fastapi import APIRouter, HTTPException, UploadFile, Query
 
 books_router = APIRouter()
-directory = "C:/Users/Lenovo/Desktop/Term5Programming/PageTurn/books/"
 
 
 def save_book(upload_file, author) -> str:
-    if not os.path.isdir(directory):
-        os.mkdir(directory)
+    current_directory = os.getcwd()
+    os.chdir(current_directory.replace("\\src\\server", ""))
+    directory = os.getcwd()
+    directory = directory.replace('\\', '/')
 
-    if not os.path.isdir(directory + f"{author}"):
-        os.mkdir(directory + f"{author}")
+    if not os.path.exists(directory + "/books"):
+        os.mkdir(directory + "/books")
 
-    file_location = directory + f"{author}/{upload_file.filename}"
+    if not os.path.exists(directory + "/books" + f"/{author}"):
+        os.mkdir(directory + "/books" + f"/{author}")
+
+    file_location = directory + "/books" + f"/{author}/{upload_file.filename}"
     with open(file_location, "wb+") as file_object:
         file_object.write(upload_file.file.read())
 
@@ -24,7 +27,8 @@ def save_book(upload_file, author) -> str:
 
 
 @books_router.post("/books/upload/")
-def upload_book(token: str, title: str, nickname: str, release_date: str, description: str, upload_file: UploadFile, tags: list[str] = Query()):
+def upload_book(token: str, title: str, nickname: str, release_date: str, description: str, upload_file: UploadFile,
+                tags: list[str] = Query()):
     current_token = tokens_collection.find_one(dict(token=token))
     if current_token is None:
         raise HTTPException(status_code=404, detail="Invalid token: user may not be signed in")
@@ -59,7 +63,11 @@ def get_book_info_by_id(book_id: str):
 def get_book_document_by_id(book_id: str):
     current_book = books_collection.find_one(dict(id=book_id))
 
-    return FileResponse(path=current_book["document_path"], filename=f"{current_book['author']}_{current_book['title']}.docx")
+    with open(current_book["document_path"], "rb") as file_object:
+        file_object.read()
+
+    return FileResponse(path=current_book["document_path"],
+                        filename=f"{current_book['author']}_{current_book['title']}.docx")
 
 
 @books_router.get("/books/get_by_author")
@@ -146,3 +154,9 @@ def update_book(token: str, book_id: str, upload_file: UploadFile):
     current_book = books_collection.find_one(dict(id=book_id), dict(_id=0, document_path=0))
 
     return current_book
+
+
+@books_router.patch("/books/add_to_bookmarks")
+def add_book_to_bookmarks(nickname: str, book_id: str):
+    book_query = dict(id=book_id)
+    user_query = []

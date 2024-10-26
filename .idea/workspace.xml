@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="исправление добавления и удаления книг">
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="исправление редактирования и обновления книг">
       <change beforePath="$PROJECT_DIR$/.idea/PageTurn.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/PageTurn.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/server/router/books_router.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/router/books_router.py" afterDir="false" />
@@ -289,7 +289,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729915005647</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="исправление редактирования и обновления книг">
+      <option name="closed" value="true" />
+      <created>1729915563022</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1729915563023</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -325,6 +333,7 @@
     <MESSAGE value="исправление эндпоинта check_user_token" />
     <MESSAGE value="исправление работы с книгами и токенизации при авторизации" />
     <MESSAGE value="исправление добавления и удаления книг" />
-    <option name="LAST_COMMIT_MESSAGE" value="исправление добавления и удаления книг" />
+    <MESSAGE value="исправление редактирования и обновления книг" />
+    <option name="LAST_COMMIT_MESSAGE" value="исправление редактирования и обновления книг" />
   </component>
 </project>
