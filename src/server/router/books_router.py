@@ -24,36 +24,35 @@ def save_book(upload_file, author) -> str:
 
 
 @books_router.post("/books/upload/")
-def upload_book(token: str, title: str, author: str, release_date: str, description: str, upload_file: UploadFile, tags: list[str] = Query()):
+def upload_book(token: str, title: str, nickname: str, release_date: str, description: str, upload_file: UploadFile, tags: list[str] = Query()):
     current_token = tokens_collection.find_one(dict(token=token))
     if current_token is None:
         raise HTTPException(status_code=404, detail="Invalid token: user may not be signed in")
 
-    file_location = save_book(upload_file, author)
+    current_user = users_collection.find_one(dict(nickname=nickname))
+    books_own = current_user['books_own']
 
-    new_book = dict(id='', title=title, author=author, tags=tags, release_date=release_date,
+    file_location = save_book(upload_file, nickname)
+
+    new_book = dict(id='', title=title, author=nickname, tags=tags, release_date=release_date,
                     description=description, document_path=file_location, saving_count=0)
-    book_id = books_collection.insert_one(new_book)
+    current_book = books_collection.insert_one(new_book)
+    book_id = str(current_book.inserted_id)
 
-    books_collection.update_one(new_book, {"$set": dict(id=str(book_id.inserted_id))})
-    current_book = books_collection.find_one(book_id.inserted_id)
+    books_collection.update_one(new_book, {"$set": dict(id=book_id)})
+    current_book = books_collection.find_one(dict(id=book_id), dict(_id=0, document_path=0))
 
-    result = Book(id=current_book["id"], title=current_book["title"], author=current_book["author"],
-                  tags=current_book["tags"], release_date=current_book["release_date"],
-                  description=current_book["description"], saving_count=current_book["saving_count"])
+    books_own.append(current_book['id'])
+    users_collection.update_one(dict(nickname=nickname), {"$set": dict(books_own=books_own)})
 
-    return result
+    return current_book
 
 
 @books_router.get("/books/get_info")
 def get_book_info_by_id(book_id: str):
-    current_book = books_collection.find_one(dict(id=book_id))
+    current_book = books_collection.find_one(dict(id=book_id), dict(_id=0, document_path=0))
 
-    result = Book(id=current_book["id"], title=current_book["title"], author=current_book["author"],
-                  tags=current_book["tags"], release_date=current_book["release_date"],
-                  description=current_book["description"], saving_count=current_book["saving_count"])
-
-    return result
+    return current_book
 
 
 @books_router.get("/books/get_doc")
@@ -65,15 +64,13 @@ def get_book_document_by_id(book_id: str):
 
 @books_router.get("/books/get_by_author")
 def get_books_by_author(author: str):
-    books_list = users_collection.find(nickname=author)['books_own']
+    books_list = users_collection.find(dict(nickname=author))['books_own']
     result: list[Book] = []
 
     for book_id in books_list:
-        book = books_collection.find_one(id=book_id)
-        if book:
-            book_response = Book(id=book["id"], title=book["title"], author=book["author"], tags=book["tags"],
-                                 release_date=book["release_date"], description=book["description"], saving_count=book["saving_count"])
-            result.append(book_response)
+        book = books_collection.find_one(dict(id=book_id), dict(_id=0, document_path=0))
+        if book is not None:
+            result.append(book)
 
     return result
 
@@ -82,7 +79,7 @@ def get_books_by_author(author: str):
 def get_books_by_tags(tags: list[str] = Query()):
     query = dict(tags=(tags[0]))
 
-    books_list = list(books_collection.find(query))
+    books_list = list(books_collection.find(query, dict(_id=0, document_path=0)))
     if books_list:
         for tag in tags[1::1]:
             for book in books_list:
@@ -91,21 +88,25 @@ def get_books_by_tags(tags: list[str] = Query()):
 
     result: list[Book] = []
     for book in books_list:
-        book_response = Book(id=book["id"], title=book["title"], author=book["author"], tags=book["tags"],
-                             release_date=book["release_date"], description=book["description"], saving_count=book["saving_count"])
-        result.append(book_response)
+        result.append(book)
 
     return result
 
 
 @books_router.delete("/books/delete")
-def delete_book(book_id: str):
+def delete_book(nickname: str, book_id: str):
     query = dict(id=book_id)
     current_book = books_collection.find_one(query)
 
     os.remove(current_book['document_path'])
 
     books_collection.delete_one(current_book)
+
+    current_user = users_collection.find_one(dict(nickname=nickname))
+    books_own = current_user['books_own']
+
+    books_own.remove(book_id)
+    users_collection.update_one(dict(nickname=nickname), {"$set": dict(books_own=books_own)})
 
     return dict(status_code=200, detail="Book deleted successfully")
 
@@ -121,13 +122,9 @@ def edit_book(token: str, book_id: str, title: str, author: str, tags: list[str]
     current_book = books_collection.find_one(dict(id=book_id))
 
     books_collection.update_one(current_book, {"$set": new_data})
-    current_book = books_collection.find_one(dict(id=book_id))
+    current_book = books_collection.find_one(dict(id=book_id), dict(_id=0, document_path=0))
 
-    result = Book(id=current_book["id"], title=current_book["title"], author=current_book["author"],
-                  tags=current_book["tags"], release_date=current_book["release_date"],
-                  description=current_book["description"], saving_count=current_book["saving_count"])
-
-    return result
+    return current_book
 
 
 @books_router.put("/books/update")
@@ -141,10 +138,6 @@ def update_book(token: str, book_id: str, upload_file: UploadFile):
 
     new_data = dict(document_path=file_location)
     books_collection.update_one(current_book, {"$set": new_data})
-    current_book = books_collection.find_one(dict(id=book_id))
+    current_book = books_collection.find_one(dict(id=book_id), dict(_id=0, document_path=0))
 
-    result = Book(id=current_book["id"], title=current_book["title"], author=current_book["author"],
-                  tags=current_book["tags"], release_date=current_book["release_date"],
-                  description=current_book["description"], saving_count=current_book["saving_count"])
-
-    return result
+    return current_book
