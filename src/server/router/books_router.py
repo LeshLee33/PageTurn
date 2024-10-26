@@ -62,12 +62,11 @@ def get_book_info_by_id(book_id: str):
 @books_router.get("/books/get_doc")
 def get_book_document_by_id(book_id: str):
     current_book = books_collection.find_one(dict(id=book_id))
+    file_location = current_book["document_path"]
 
-    with open(current_book["document_path"], "rb") as file_object:
-        file_object.read()
-
-    return FileResponse(path=current_book["document_path"],
-                        filename=f"{current_book['author']}_{current_book['title']}.docx")
+    return FileResponse(path=file_location,
+                        filename=f"{current_book['author']}_{current_book['title']}.docx",
+                        media_type='multipart/form-data')
 
 
 @books_router.get("/books/get_by_author")
