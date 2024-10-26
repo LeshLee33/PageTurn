@@ -64,7 +64,8 @@ def get_book_document_by_id(book_id: str):
 
 @books_router.get("/books/get_by_author")
 def get_books_by_author(author: str):
-    books_list = users_collection.find(dict(nickname=author))['books_own']
+    current_author = users_collection.find_one(dict(nickname=author))
+    books_list = current_author['books_own']
     result: list[Book] = []
 
     for book_id in books_list:
@@ -94,7 +95,11 @@ def get_books_by_tags(tags: list[str] = Query()):
 
 
 @books_router.delete("/books/delete")
-def delete_book(nickname: str, book_id: str):
+def delete_book(token: str, book_id: str):
+    current_token = tokens_collection.find_one(dict(token=token))
+    if current_token is None:
+        raise HTTPException(status_code=404, detail="Invalid token: user may not be signed in")
+
     query = dict(id=book_id)
     current_book = books_collection.find_one(query)
 
@@ -102,11 +107,13 @@ def delete_book(nickname: str, book_id: str):
 
     books_collection.delete_one(current_book)
 
-    current_user = users_collection.find_one(dict(nickname=nickname))
+    current_user = users_collection.find_one(dict(nickname=current_token['nickname']))
     books_own = current_user['books_own']
+    print(books_own)
 
     books_own.remove(book_id)
-    users_collection.update_one(dict(nickname=nickname), {"$set": dict(books_own=books_own)})
+    print(books_own)
+    users_collection.update_one(dict(nickname=current_token['nickname']), {"$set": dict(books_own=books_own)})
 
     return dict(status_code=200, detail="Book deleted successfully")
 
