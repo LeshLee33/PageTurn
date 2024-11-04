@@ -31,8 +31,7 @@ git merge dev
 
 для запуска проекта:
 ```
-cd src/frontend
-npm run start
+npm run dev
 ```
 
 ---

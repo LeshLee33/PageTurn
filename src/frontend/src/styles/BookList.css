@@ -1,0 +1,83 @@
+.book-block {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 0 5px 5px 10px;
+    margin: 0 10px 10px 10px;
+    background-color: #2C3E50;
+    display: flex;
+    flex-direction: column;
+    color: #F5F5F5;
+  }
+  
+  .book-block a {
+    text-decoration: none;
+    color: #F5F5F5;
+  }
+  
+  .author-and-tags {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .author {
+    width: 30%;
+  }
+  
+  .tags {
+    width: 70%;
+    text-align: right;
+  }
+  
+  .tag {
+    display: inline-block;
+    margin: 0px 5px 5px 0;
+    background-color: #F5F5F5;
+    color: #2C3E50;
+    border-radius: 3px;
+    padding: 2px;
+  }
+  
+  .buttons {
+    display: flex;
+    justify-content: end;
+    margin: 0 0 5px 0;
+  }
+  
+  .edit-button {
+    background-color: #4CAF50;
+    color: #F5F5F5;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 5px 0 0;
+  }
+  
+  .edit-button:hover{
+    background-color: #69c66c;
+  }
+
+.delete-button {
+    background-color: #f41a1a;
+    color: #F5F5F5;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 5px 0 0;
+  }
+
+  .delete-button:hover{
+    background-color: #f94c4c;
+  }
+
+  .upload-button {
+    background-color: #FFC300;
+    color: #F5F5F5;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin: 0 5px 0 0;
+  }
+  
+  .upload-button:hover{
+    background-color: #FFEA00;
+  }

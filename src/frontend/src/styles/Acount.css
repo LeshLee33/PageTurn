@@ -1,5 +1,4 @@
 .Acount-container {
-    background-color: #A97F61; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -7,13 +6,47 @@
 }
 
 .Acount-block {
-    padding: 10px 0 0 0;
+    padding: 20px; 
     margin: 15px 0 30px 0;
     border-radius: 10px;
     width: 90%; 
     max-width: 1024px; 
-    margin-top: 15px;
+    min-height: 1024px;
     background-color: #F5F5F5; 
     display: flex;
     flex-direction: column; 
+    box-sizing: border-box; 
+    gap: 5px;
+  }
+
+.change-password-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between; 
+}
+
+.logout_button {
+    color: #2C3E50;
+    padding: 5px 15px 5px 15px;
+    background-color: #e8e8e8;
+    border-radius: 5px; 
+    border: none;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+  }
+
+.logout_button:hover{
+    background-color: rgb(255, 108, 108);
+}
+
+.input-change-password {
+    width: 40%; /* Задаем ширину input так, чтобы он занимал ширину контейнера */
+    padding: 5px 0px 5px 5px;
+    border: 1px solid #ccc; 
+    border-radius: 5px; 
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box;
+    margin: 0 0 5px 0;
 }

@@ -28,7 +28,7 @@ const NavigationBar = () => {
             <img src={bookmarks} alt="bookmarks" className="bookmarks" />
         </Link>
         
-        <Link to="/create+an+entry">
+        <Link to="/create_an_entry/0">
             <img src={create_an_entry} alt="create_an_entry" className="create_an_entry" />
         </Link>
         <Link to="/acount">

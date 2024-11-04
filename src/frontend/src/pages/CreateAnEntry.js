@@ -1,17 +1,24 @@
 import '../styles/CreateAnEntry.css';
-import React, { useState } from 'react';
+import React, { useState} from 'react';
+import { useParams } from 'react-router-dom';
 import NavigationBar from '../components/NavigationBar';
 import file_img from "../assets/file.svg"
 import plus from "../assets/plus.svg"
-
-import { getUsers, register } from '../API/Users';
+import { useAuth } from '../components/AufContext';
+import { addBook } from '../API/Books';
 
 function CreateAnEntry() {
-  const [selected_tags, setSelectedTags] = useState([]);
+  
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
 
+  const { id } = useParams();
+  console.log(id)
+
+  const {nickname,aufToken} = useAuth();
+
+  const [selected_tags, setSelectedTags] = useState([]);
   const tags = [
     'Фантастика',
     'Фэнтези',
@@ -101,8 +108,20 @@ function CreateAnEntry() {
     document.getElementById('file').value = '';
   };
 
-  const submitFunc = () => {
-    console.log(register("qwert1", "Wfr9f3dv33"))
+  const submitFunc = async () => {
+    try {
+      const release_date = new Date().toLocaleDateString('ru-RU', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      });
+      
+      const data = await addBook(aufToken, title, nickname, release_date, content, selected_tags, file);
+      if (data==null) alert('add Book failed: ');
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -113,7 +132,7 @@ function CreateAnEntry() {
         <div className='title'>Название:</div>
         <input type="text" id="title" className='input-title' value={title} onChange={(e) => setTitle(e.target.value)}/>
 
-        <div className='title'>описание:</div>
+        <div className='title'>Описание:</div>
         <textarea id="content" className='input-content' value={content} onChange={(e) => setContent(e.target.value)}></textarea>
 
         <div className='title'>Добавить файл:</div>
@@ -143,7 +162,7 @@ function CreateAnEntry() {
           ))}
         </div>
 
-        <button className='submit-button' onClick={() => submitFunc()}>Подтвердить</button>
+        <button  type="submit" className='submit-button' onClick={() => submitFunc()}>Подтвердить</button>
       </div>
 
     </div>

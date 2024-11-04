@@ -1,19 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import { useAuth } from './AufContext';
+import "../styles/BookList.css"
+import { delBook, changeBook, getDoc } from '../API/Books';
+import { useNavigate } from 'react-router-dom';
 
 const books = [
     {
-        id: 1,
+        id: 23,
         name: "1984",
-        author: "George Orwell",
-        tags: ["dystopian", "politics", "science fiction"],
+        author: "e",
+        tags: ["dystopian", "politics", "science fiction","dystopian", "politics", "science fiction","dystopian", "politics", "science fiction","dystopian", "politics", "science fiction","dystopian", "politics", "science fiction"],
         creationDate: "1949-06-08",
         content: "1984 is a dystopian novel set in a totalitarian society ruled by Big Brother."
     },
     {
         id: 2,
         name: "To Kill a Mockingbird",
-        author: "Harper Lee",
+        author: "user1",
         tags: ["classic", "racism", "justice"],
         creationDate: "2024-07-11",
         content: "A novel about the serious issues of rape and racial inequality, told through the eyes of young Scout Finch."
@@ -27,64 +31,99 @@ const books = [
         content: "A story of the mysteriously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan."
     }
 ]
-const BookBlock = ({ book }) => {
+
+
+
+const BookBlock = ({ book, showAuthorAndTags = true }) => {
+    const navigate = useNavigate();
+
+    const delFunc = async (bookID) => {
+      const confirmDelete = window.confirm("Вы уверены что хотите удалить запись?");
+      if (confirmDelete) {
+        try {
+          const delData = await delBook(bookID);
+        } catch (error) {
+          alert('Delete failed: ' + error.message);
+        }
+      }
+    };
+
+    const changeFunc = async (bookID) => {
+      try {
+        navigate(`/create_an_entry/${bookID}`)
+      } catch (error) {
+          alert('Delete failed: ' + error.message);
+      }
+    };
+
+    const uploadFunc = async (bookID) => {
+      bookID = "67275160f302d9e651cae05c"
+      const fileData = await getDoc(bookID);
+    };
+
     return (
-        <div style={{
-            border: '1px solid #ccc',
-            borderRadius: '10px',
-            padding: '0 5px 15px 10px',
-            margin: '0 10px 15px 10px',
-            backgroundColor: '#2C3E50',
-            display: 'flex',
-            flexDirection: 'column',
-            color: '#F5F5F5',
-        }}>
-            <Link to={`/postpage/${book.id}`} style={{
-                textDecoration: 'none', 
-                color: '#F5F5F5' 
-            }}>
-                <h2>{book.name}</h2> 
-            </Link>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>{book.author}</span>
-                <div>
-                    {book.tags.map((tag, index) => (
-                        <span key={index} style={{
-                            marginRight: '5px',
-                            backgroundColor: '#F5F5F5',
-                            color: '#2C3E50',
-                            borderRadius: '5px',
-                            padding: '3px'
-                        }}>
-                            {tag}
-                        </span>
-                    ))}
-                </div>
+      <div className="book-block">
+        <Link to={`/postpage/${book.id}`}>
+          <h2>{book.name}</h2>
+        </Link>
+        {showAuthorAndTags ? (
+          <div className="author-and-tags">
+            <span className="author">{book.author}</span>
+            <div className="tags">
+              {book.tags.map((tag, index) => (
+                <span key={index} className="tag">{tag}</span>
+              ))}
             </div>
-        </div>
+          </div>
+        ) : (
+          <div className="buttons">
+                    <button type="button" className="upload-button" onClick={() => uploadFunc(book.id)}>скачать</button>
+                    <button type="button" className="edit-button" onClick={() => changeFunc(book.id)}>редактировать</button>
+                    <button type="button" className="delete-button" onClick={() => delFunc(book.id)}>удалить</button>
+                </div>
+        )}
+      </div>
     );
-};
-
-const BookList = ({ filterType }) => {
+  };
+  
+  const BookList = ({ filterType }) => {
     let filteredBooks;
-
-    if (filterType === 'likes') {
-        filteredBooks = [...books].sort((a, b) => b.likes - a.likes).slice(0, 5);
-    } else if (filterType === 'last') {
-        filteredBooks = [...books].sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate)).slice(0, 10);
-    } else if(Array.isArray(filterType)) {
-        filteredBooks = [...books].filter(book => filterType.includes(book.id));
-    } else { 
-        filteredBooks = books;
-    }
-
-    return (
+  
+    const { nickname } = useAuth(); 
+  
+    if (filterType === 'last') {
+      filteredBooks = [...books].sort((a, b) => new Date(b.creationDate) - new Date(a.creationDate)).slice(0, 10);
+    } else if (filterType === 'my') {
+      filteredBooks = [...books].filter(book => book.author.toLowerCase() === nickname.toLowerCase());
+      return (
         <div>
-            {filteredBooks.map(book => (
-                    <BookBlock key={book.id} book={book} />
-            ))}
+          {filteredBooks.map(book => (
+            <BookBlock key={book.id} book={book} showAuthorAndTags={false} />
+          ))}
         </div>
+      );
+    } else if (filterType === 'admin') {
+      // Возвращаем все записи и заменяем теги на кнопки
+      return (
+          <div>
+              {books.map(book => (
+                  <BookBlock key={book.id} book={book} showAuthorAndTags={false} />
+              ))}
+          </div>
+      );
+  } else if (Array.isArray(filterType)) {
+      filteredBooks = [...books].filter(book => filterType.includes(book.id));
+    } else {
+      filteredBooks = books;
+    }
+  
+    return (
+      <div>
+        {filteredBooks.map(book => (
+          <BookBlock key={book.id} book={book} />
+        ))}
+      </div>
     );
-};
-
-export default BookList;
+  };
+  
+  export default BookList;
