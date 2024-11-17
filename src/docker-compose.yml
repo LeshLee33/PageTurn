@@ -1,0 +1,20 @@
+services:
+  fastapi:
+    build: .
+    restart: always
+    ports: 
+      - 8000:8000
+
+  mongo:
+    image: mongo:latest
+    ports:
+     - 27017:27017
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - fastapi
