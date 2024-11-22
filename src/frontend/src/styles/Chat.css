@@ -1,0 +1,94 @@
+.show-all-button {
+    font-size: 16px;
+    margin: 10px 0 10px 10px;
+    background-color: #2C3E50; 
+    color: #F5F5F5; 
+    border-radius: 10px;
+    padding: 5px 50px;
+}
+
+.chat-toggle-button {
+    position: fixed; /* Фиксированное позиционирование */
+    bottom: 20px; /* Отступ от низа */
+    right: 20px; /* Отступ от правого края */
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000; /* Убедитесь, что кнопка поверх других элементов */
+}
+
+.chat-container {
+    padding: 10px 10px 10px 20px;
+    position: fixed;
+    bottom: 70px;
+    right: -400px;
+    max-width: 80vw;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9;
+    z-index: 1000;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Объединение переходов */
+}
+
+/* Положение чата, когда он видим */
+.chat-container.visible {
+    transform: translateX(-140%);
+}
+
+.messages-scroll {
+    border: 1px solid #ccc;
+    height: 20vw;
+    overflow-y: scroll;
+}
+
+/* Стили для полосы прокрутки */
+.messages-scroll::-webkit-scrollbar {
+    width: 8px; /* Ширина полосы прокрутки */
+}
+
+.messages-scroll::-webkit-scrollbar-thumb {
+    background-color: #007bff; /* Цвет ползунка */
+    border-radius: 10px; /* Закругление углов ползунка */
+}
+
+.messages-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Цвет фона полосы прокрутки */
+}
+
+/* Для Firefox */
+.messages-scroll {
+    scrollbar-width: thin; /* Установить ширину полосы прокрутки для Firefox */
+    scrollbar-color: #007bff #f1f1f1; /* Цвет ползунка и фона полосы прокрутки */
+}
+
+/* Стили для кнопки отправки сообщений */
+.send-button {
+    padding: 10px 15px; /* Отступы кнопки */
+    background-color: #28a745; /* Цвет кнопки */
+    color: white; /* Цвет текста */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Закругление углов */
+    cursor: pointer; /* Курсор при наведении */
+    transition: background-color 0.3s; /* Плавный переход цвета */
+}
+
+.send-button:hover {
+    background-color: #218838; /* Цвет кнопки при наведении */
+}
+
+/* Стили для поля ввода */
+.input-message {
+    margin: 5px 0 0 0;
+    padding: 10px; /* Отступы поля ввода */
+    border: 1px solid #ccc; /* Цвет рамки */
+    border-radius: 5px; /* Закругление углов */
+    width: 100%; /* Ширина поля ввода */
+    margin-bottom: 10px; /* Отступ снизу */
+    box-sizing: border-box; /* Учитывать отступы в ширине */
+}

@@ -11,6 +11,7 @@ import Authorization from './pages/Authorization';
 import Registration from './pages/Registration';
 import Admin_acount from './pages/Admin_acount';
 import { check_token } from './API/Users';
+import Chat from './components/Chat';
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/authorization" element={<Authorization />} />
           <Route path="/registration" element={<Registration />} />
-          <Route path="/postpage/:id" element={<PostPage />} />
+          <Route path="/postpage/:book_id" element={<PostPage />} />
           <Route path="/acount" element={<RequireAuth><Acount /></RequireAuth>} />
           <Route path="/create_an_entry/:id" element={<RequireAuth><CreateAnEntry /></RequireAuth>} />
           <Route path="/bookmarks" element={<RequireAuth><Bookmarks /></RequireAuth>} />
@@ -46,13 +47,23 @@ const RequireAuth = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      const result = await check_token(aufToken);
-      if (result.status_code === 200) {
-        setIsAuthorized(true);
-      } else {
+      try {
+        const result = await check_token(aufToken);
+        if (result.status_code === 200) {
+          setIsAuthorized(true);
+        } else if (result.status_code === 404) {
+          localStorage.removeItem('nickname');
+          localStorage.removeItem('auf_token');
+          setIsAuthorized(false);
+        } else {
+          setIsAuthorized(false);
+        }
+      } catch (error) {
+        console.error('Ошибка при проверке токена:', error);
         setIsAuthorized(false);
+      } finally {
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
 
     verifyToken();
@@ -66,7 +77,7 @@ const RequireAuth = ({ children }: { children: React.ReactNode }) => {
     return <Navigate to="/authorization" replace />;
   }
 
-  return <>{children}</>;
+  return <><Chat />{children}</>;
 };
 
 export default App;
