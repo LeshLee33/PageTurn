@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
-from .router import users_router, books_router, base_router
+from .router import users_router, books_router, base_router, start_websocket_server
 
 
 app = FastAPI(title="PageTurn: internet library")
@@ -20,6 +20,7 @@ app.include_router(base_router)
 
 def main():
     uvicorn.run(app="main:app", reload=True)
+    start_websocket_server()
 
 
 if __name__ == "__main__":
