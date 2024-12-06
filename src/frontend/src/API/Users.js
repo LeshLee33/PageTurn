@@ -10,6 +10,7 @@ export const getUsers = async () => {
 };
 
 export const check_token = async (token) => {
+  console.log(1)
   try {
     const res = await api.get(`/users/check_token?token=${token}`);
     return res.data;

@@ -27,7 +27,7 @@ async def socket(websocket, path):
         print("Пользователь отключен")
 
 def start_websocket_server():
-    start_server = websockets.serve(socket, "localhost", 8001)
+    start_server = websockets.serve(socket, "localhost", 8002)
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
 

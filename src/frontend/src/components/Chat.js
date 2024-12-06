@@ -10,7 +10,7 @@ const Chat = () => {
   const [showChat, setShowChat] = useState(false);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://localhost:8001');
+    const ws = new WebSocket('ws://localhost:8002');
 
     ws.onopen = () => {
       console.log('WebSocket соединение установлено');
@@ -27,7 +27,7 @@ const Chat = () => {
 
     ws.onerror = (error) => {
       console.error('WebSocket ошибка:', error);
-      console.log('Состояние WebSocket:', ws.readyState); // 0: CONNECTING, 1: OPEN, 2: CLOSING, 3: CLOSED
+      console.log('Состояние WebSocket:', ws.readyState); 
     };
 
     setSocket(ws);
