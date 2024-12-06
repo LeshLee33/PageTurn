@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="Испровление docker-compose.yml (не копировал конфигурационный файл)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="f02fd7d7-0a1c-4cb5-b2fa-a6d55e87ffd7" name="Changes" comment="Исправление cli">
       <change beforePath="$PROJECT_DIR$/src/server/command_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/command_line.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -312,7 +311,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733501123392</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Исправление cli">
+      <option name="closed" value="true" />
+      <created>1733501372879</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1733501372879</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -350,6 +357,7 @@
     <MESSAGE value="исправление добавления и удаления книг" />
     <MESSAGE value="исправление редактирования и обновления книг" />
     <MESSAGE value="Испровление docker-compose.yml (не копировал конфигурационный файл)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Испровление docker-compose.yml (не копировал конфигурационный файл)" />
+    <MESSAGE value="Исправление cli" />
+    <option name="LAST_COMMIT_MESSAGE" value="Исправление cli" />
   </component>
 </project>
