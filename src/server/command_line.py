@@ -1,6 +1,5 @@
 import click
-from router import database
-from router.database_connection import users_collection
+from router.database_connection import users_collection, database
 
 
 @click.group()
