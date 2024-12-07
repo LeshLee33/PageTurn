@@ -1,5 +1,9 @@
 import click
-from router.database_connection import users_collection
+import pymongo as pm
+
+client = pm.MongoClient('mongodb://localhost:27017/')
+database = client.PageTurn
+users_collection = database.Users
 
 
 @click.group()

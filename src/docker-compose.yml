@@ -22,13 +22,3 @@ services:
     depends_on:
       - fastapi
 
-  frontend:
-    build:
-      context: ./frontend  
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-    depends_on:
-      - fastapi
-    environment:
-      - CHOKIDAR_USEPOLLING=true
